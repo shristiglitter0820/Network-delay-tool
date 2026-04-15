@@ -30,15 +30,34 @@ h1 --[2ms]-- s1 --[10ms]-- s2 --[25ms]-- s3 --[2ms]-- h3
 | h3   | 10.0.0.3/24 | s3     | Far host        |
 | h4   | 10.0.0.4/24 | s3     | Co-located w/h3 |
 
-### Expected RTT values (approximate)
+### Scenario 1 – Normal Forwarding (Actual Results)
 
-| Path              | One-way delay | Expected RTT |
-|-------------------|---------------|--------------|
-| h3 ↔ h4 (same sw) | 2+2 = 4 ms   | ≈ 8 ms       |
-| h1 ↔ h2 (short)   | 2+10+2 = 14 ms| ≈ 28 ms      |
-| h2 ↔ h3 (medium)  | 2+25+2 = 29 ms| ≈ 58 ms      |
-| h1 ↔ h3 (long)    | 2+10+25+2 = 39 ms| ≈ 78 ms   |
+| Pair | min (ms) | avg (ms) | max (ms) | jitter (ms) | Loss |
+|------|----------|----------|----------|-------------|------|
+| h3 ↔ h4 (same sw) | 8.45 | 9.03 | 9.25 | 0.26 | 0% |
+| h1 ↔ h2 (short)   | 28.47 | 30.07 | 31.17 | 0.83 | 0% |
+| h2 ↔ h3 (medium)  | 58.61 | 60.09 | 61.17 | 0.80 | 0% |
+| h1 ↔ h3 (long)    | 79.55 | 81.47 | 83.58 | 1.16 | 0% |
 
+> RTT values closely match expected values (±3 ms), confirming correct link delay emulation via tc-netem.
+> Long path RTT (81 ms) is ~2.7× the short path RTT (30 ms), demonstrating measurable delay differences.
+
+### Scenario 2 – Blocking Mode (Actual Results)
+
+| Pair | Result |
+|------|--------|
+| h1 → h3 (blocked) | loss=100%  PASS |
+| h3 → h1 (blocked) | loss=100%  PASS |
+| h1 → h2 (allowed) | avg=49.46 ms, loss=0%  |
+| h2 → h4 (allowed) | avg=61.02 ms, loss=0%  |
+| h3 → h4 (allowed) | avg=9.48 ms, loss=0%  |
+
+### iperf Throughput (Actual Results)
+
+| Path | Throughput |
+|------|------------|
+| h1 → h2 | 92.5 Mbits/sec |
+| h3 → h2 | 87.2 Mbits/sec |
 ---
 
 ## Repository Structure
@@ -83,7 +102,7 @@ git clone https://github.com/noxrepo/pox.git
 
 ### Step 1 – Clone this repository
 ```bash
-git clone https://github.com/<your-username>/network-delay-tool.git
+git clone https://github.com/shristiglitter0820/network-delay-tool.git
 cd network-delay-tool
 ```
 
