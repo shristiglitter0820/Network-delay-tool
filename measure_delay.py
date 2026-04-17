@@ -11,7 +11,7 @@ Run this script directly (as root):
     --block  : run Scenario 2 (h1↔h3 blocked) instead of normal mode
 
 Author : SDN Mininet Project
-"""
+# SRN: PES1UG24CS903"""
 
 import re
 import sys
@@ -21,7 +21,7 @@ import datetime
 from mininet.log import setLogLevel, info
 from topology import create_delay_topology
 
-
+# SRN: PES1UG24CS903
 # ─────────────────────────────────────────────────────────────────────────────
 #  Ping helpers
 # ─────────────────────────────────────────────────────────────────────────────
@@ -159,7 +159,7 @@ def scenario2_blocking(net, log_lines):
         print(line)
         log_lines.append(line)
 
-
+# SRN: PES1UG24CS903
 def iperf_test(net, log_lines):
     """Quick iperf throughput test alongside delay measurements."""
     header = "\n%s\n  IPERF THROUGHPUT TEST\n%s" % (SEPARATOR, SEPARATOR)
@@ -190,7 +190,7 @@ def iperf_test(net, log_lines):
 # ─────────────────────────────────────────────────────────────────────────────
 #  Analysis helpers
 # ─────────────────────────────────────────────────────────────────────────────
-
+# SRN: PES1UG24CS903
 def _comparative_analysis(results, log_lines):
     """Print a side-by-side comparison table."""
     print("\n%s" % SEPARATOR)
@@ -224,7 +224,7 @@ def _comparative_analysis(results, log_lines):
 # ─────────────────────────────────────────────────────────────────────────────
 #  Main
 # ─────────────────────────────────────────────────────────────────────────────
-
+# SRN: PES1UG24CS903
 def main():
     parser = argparse.ArgumentParser(
         description='Network Delay Measurement Tool – automated test runner')
@@ -260,7 +260,7 @@ def main():
             scenario1_normal(net, log_lines)
 
         iperf_test(net, log_lines)
-
+# SRN: PES1UG24CS903
         # ── Save results ──────────────────────────────────────────────────────
         ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         fname = 'results_%s.txt' % ts
